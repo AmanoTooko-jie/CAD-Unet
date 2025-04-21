@@ -77,7 +77,7 @@ train_transform = A.Compose(
         A.Rotate(limit=35, p=1.0),
         A.HorizontalFlip(p=0.2),
         A.VerticalFlip(p=0.2),
-        A.Normalize(  # 标准化
+        A.Normalize(  
             mean=[0.0, 0.0, 0.0],
             std=[1.0, 1.0, 1.0],
             max_pixel_value=255.0,
@@ -116,14 +116,12 @@ validate_set = Data_loaderVE(
 F1_mean, dise_mean, IoU_mean = [], [], []
 Recall_mean = []
 
-dataset_idx = "data4"
+dataset_idx = ""
 
 modl_n = 'CADUnet'
 
 epochs = 120
 batch_size = 6
-num_hands = 16
-rate = 0.0
 
 runs = 5
 for itr in range(runs):
@@ -277,12 +275,11 @@ for itr in range(runs):
             epoch_acc2 = (num_correct / num_pixels) * 100
             epoch_dise = dice_scores / len(dataloader.dataset)
             epoch_dise2 = dice_scores2 / len(dataloader.dataset)
-            # 计算一堆指标
             Spec = 1 - (FP / (FP + TN))
             Sens = TP / (TP + FN)
             Prec = TP / (TP + FP + 1e-8)
             F1score = TP / (TP + ((1 / 2) * (FP + FN)) + 1e-8)
-            IoU = TP / (TP + FP + FN)  # 计算IOU
+            IoU = TP / (TP + FP + FN)  
 
             if phase == 'valid':
                 if F1score > best_F1score:
@@ -297,7 +294,6 @@ for itr in range(runs):
                     '{} Loss: {:.4f} Acc: {:.8f} Dise: {:.8f} Dise2: {:.8f} IoU: {:.8f} F1: {:.8f} Spec: {:.8f} Sens: {:.8f} Prec: {:.8f}'
                     .format(phase, epoch_loss, epoch_acc2, epoch_dise, epoch_dise2, IoU, F1score, Spec, Sens, Prec),
                     file=f)
-            # 保存一堆训练结果
             train_loss.append(np.array(epoch_loss.detach().cpu())) if phase == 'train' \
                 else valid_loss.append(np.array(epoch_loss.detach().cpu()))
             train_acc.append(np.array(epoch_acc2)) if phase == 'train' \

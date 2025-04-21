@@ -25,7 +25,7 @@ class Data_loaderV(Dataset):
     def __init__(self, root, train, transform=None):
 
         self.train = train  # training set or test set
-        self.data, self.y, self.y2 = torch.load(os.path.join(root, train)) # 吧数据集文件加载到self.data, self.y, self.y2
+        self.data, self.y, self.y2 = torch.load(os.path.join(root, train)) 
         self.transform = transform
 
     def __getitem__(self, index):
@@ -146,7 +146,7 @@ for itr in range(runs):
     reconstruction_loss = nn.MSELoss(reduction="none")
     #######
     from models import Architecture_CADUnet as networks
-    model = getattr(networks, modl_n)(in_channels=3, out_channels=3, img_size=224,num_heads=num_hands,att_ratio=rate) # 多值感染分割最后输出通道数为3
+    model = getattr(networks, modl_n)(in_channels=3, out_channels=3, img_size=224,num_heads=num_hands,att_ratio=rate)
     pytorch_total_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
     print("Total_params: {}".format(pytorch_total_params))
     #######
@@ -336,7 +336,7 @@ for itr in range(runs):
             Prec1c =  TPc1/(TPc1+FPc1+ 1e-8) 
             F1score1c = TPc1 / (TPc1 + ((1/2)*(FPc1+FNc1))+ 1e-8)
             IoU1c = TPc1 / (TPc1+FPc1+FNc1)
-            # print(f'Epoch [{epoch + 1}/{epochs}]:'," phase:",phase," epoch_loss:",round(epoch_loss.item(),3),"GOO_F1score:",round(F1score1,3),"GOO_IoU:",round(IoU1,3),"Cons_F1score:", round(F1score1c,3),"Cons_IoU:", round(IoU1c,3))
+            print(f'Epoch [{epoch + 1}/{epochs}]:'," phase:",phase," epoch_loss:",round(epoch_loss.item(),3),"GOO_F1score:",round(F1score1,3),"GOO_IoU:",round(IoU1,3),"Cons_F1score:", round(F1score1c,3),"Cons_IoU:", round(IoU1c,3))
             ##########
           
             

@@ -131,7 +131,6 @@ torch.save(training,'./Datas/Train_MC.pt')
 Training_data=[]
 Training_mask=[]
 Training_inf=[]
-# 后50张图测试
 for i in range(50): 
     idximg += 1
     i += 50

@@ -46,7 +46,6 @@ idx = -1
 
 for Ct_scan in Ct_scans:
     idx += 1
-    # 如果是训练集图片
     if idx in train_spt:
         train_idx.append(idx)
         train_name.append(Ct_scan)

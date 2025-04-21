@@ -66,7 +66,7 @@ class DoubleConv(nn.Module):
     def forward(self, x):
         return self.conv(x) + self.skip(x)
 ##############################################################################
-# D-TrAttUnet Architecture
+# CADUnet Architecture
 class CADUnet(nn.Module):
     def __init__(
             self,
@@ -85,7 +85,7 @@ class CADUnet(nn.Module):
 
         self.capconv = nn.Conv2d(in_channels=3, out_channels=16, kernel_size=5, stride=1, padding=2)
 
-        nb_filter = [32, 64, 128, 256, 512]  # 0~4层的特征图个数
+        nb_filter = [32, 64, 128, 256, 512]  
         self.encoder1 = DoubleConv(in_channels, nb_filter[0])
 
         self.conv1 = DoubleConv(in_channels, nb_filter[0])
@@ -110,10 +110,10 @@ class CADUnet(nn.Module):
         self.deconv4 = DoubleConv(nb_filter[0] + nb_filter[1], nb_filter[0])
 
         self.outconv1_d1 = nn.Conv2d(in_channels=nb_filter[3], out_channels=out_channels,
-                                     kernel_size=1)  # Decoder1输出层从下往上第一层
-        self.outconv2_d1 = nn.Conv2d(in_channels=nb_filter[2], out_channels=out_channels, kernel_size=1)  # 输出层从下往上第二层
-        self.outconv3_d1 = nn.Conv2d(in_channels=nb_filter[1], out_channels=out_channels, kernel_size=1)  # …………第三层
-        self.outconv4_d1 = nn.Conv2d(in_channels=nb_filter[0], out_channels=out_channels, kernel_size=1)  # …………第四层
+                                     kernel_size=1)  
+        self.outconv2_d1 = nn.Conv2d(in_channels=nb_filter[2], out_channels=out_channels, kernel_size=1)  
+        self.outconv3_d1 = nn.Conv2d(in_channels=nb_filter[1], out_channels=out_channels, kernel_size=1)  
+        self.outconv4_d1 = nn.Conv2d(in_channels=nb_filter[0], out_channels=out_channels, kernel_size=1) 
 
         self.final = nn.Conv2d(nb_filter[0], out_channels, kernel_size=1)
 
